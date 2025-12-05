@@ -99,3 +99,7 @@ The following list contains this dataset's primary limitations, and focuses on f
 ## Recommendations
 
 ## Next Steps
+
+## For More Information
+
+See the full analysis in the [Jupyter Notebook](notebook.ipynb) 
