@@ -23,7 +23,7 @@ With all of this, it's not shocking that your hotel is having issues with cancel
 
 We are hoping to help with that by creating a classification model that predicts when a hotel reservation is "high risk" so your team can intervene and reach out with incentives to secure the booking.
 
-# Data Understanding
+# Data Understanding:
 
 This project uses the Hotel Reservations Dataset, accessed via [Kaggle](https://www.kaggle.com/datasets/ahsan81/hotel-reservations-classification-dataset/data), and contains 36,275 records detailing customer reservations and characteristics from 2017 to 2018. This dataset is a good choice for this project for the following reasons:
 
@@ -82,52 +82,45 @@ This Data Dictionary, taken from the dataset's Kaggle page, describes each of th
 ### Data Limitations:
 The following list contains this dataset's primary limitations, and focuses on factors that could impact the model's generalizability:
 
-* Limited Geographic Scope and Timeline: The data is restricted to a 1 hotel only and is slightly outdated with the latest record from 2018 (before the Covid-19 Pandemic). The hotel location is also undisclosed. The dataset creator, Ahsan Raza, commented in the Discussion section: "This example data has been captured from single location/country which, due to discretionary reasons, cannot be disclosed." This adds a limit to the model's ability to generalize well to other locations after 2018.
+* **Limited Geographic Scope and Timeline:** The data is restricted to a 1 hotel only and is slightly outdated with the latest record from 2018 (before the Covid-19 Pandemic). The hotel location is also undisclosed. The dataset creator, Ahsan Raza, commented in the Discussion section: "This example data has been captured from single location/country which, due to discretionary reasons, cannot be disclosed." This adds a limit to the model's ability to generalize well to other locations after 2018.
 
-* Missing External and Factors: The dataset lacks external and economic influences. Information about competitor pricing, weather forecasts, or large events taking place nearby are just to name a few outside factors that frequently drive cancellation decisions, but they are invisible to the current model.
+* **Missing External and Factors:** The dataset lacks external and economic influences. Information about competitor pricing, weather forecasts, or large events taking place nearby are just to name a few outside factors that frequently drive cancellation decisions, but they are invisible to the current model.
 
-* Lack of Detailed Guest and Pricing Data: Certain customer demographic details (like age and income), as well as records of the actual price paid by the customers (only the average is included) are absent. This limits the model's ability to truly understand a customer's price sensitivity.
+* **Lack of Detailed Guest and Pricing Data:** Certain customer demographic details (like age and income), as well as records of the actual price paid by the customers (only the average is included) are absent. This limits the model's ability to truly understand a customer's price sensitivity.
 
-* Feature Ambiguity: Interpretation is hampered by the ciphered room type values (ie. room type, meal plan type), which cannot be leveraged fully without the encoding key, which is not included. 
-
-
+* **Feature Ambiguity:** Interpretation is hampered by the ciphered room type values (ie. room type, meal plan type), which cannot be leveraged fully without the encoding key, which is not included. 
 
 
 ## Data Preparation:
+The following list summarizes the steps we took to prepare our data for modeling:
 
+1. **Data Cleaning:**
+**Unique Identification:** Removed the Booking_ID column as it held no predictive power.
 
+**Duplicate Management:** Scanned for and removed duplicate records to prevent artificial bias in model training.
 
-Numerical Columns Initial Observations:
-The required_car_parking_space and repeated_guest columns should be treated as categorical (0, or 1).
-There are outliers in the following columns:
-lead_time
-no_of_children (75th percentile is still 0.0, max is 10)
-no_of_week_nights (75th percentile is 3, max is 17)
-no_of_previous_cancellations (75th percentile is 0, max is 13)
-no_of_previous_bookings_not_cancelled (75th percentile is 0, max is 58)
-I am curious if there are any records where no_of_weekend_nights and no_of_week_nights for a certain record are both 0.
+**Target Encoding:** Created the target column "is_canceled" by mapping "booking_status" values (Canceled = 1, Not_Canceled = 0).
 
-Additional Data Preprocessing:
-In this section, we:
+**Validation:** Identified and removed logically inconsistent records, specifically instances where the total number of stay nights (weekend + weeknights) was zero.
 
-identify the features and target for the models
-train, test, split the data to prevent data leakage
-create a dummy model to produce baseline metrics so we ensure our models performance improves
-define OneHotEncoder to use for categorical columns
-define StandardScaler to use for numerical columns
+2. **Feature Engineering & Domain Adjustments:**
+**Outlier Mitigation:** To prevent extreme values from skewing model performance, manual maximum caps were applied to lead_time, no_of_children, no_of_week_nights, and previous booking/cancellation metrics.
 
+**Category Consolidation:** Addressed high-cardinality categorical features by consolidating low-frequency categories into "Other" or other broader labels, reducing noise and improving model stability.
 
-Data Cleaning and Feature Engineering:
-In this section, we:
+**Data Type Casting:** Explicitly converted discrete integer columns—required_car_parking_space, repeated_guest, and arrival_year—to object types to ensure the preprocessing pipeline treated them as categorical features rather than continuous values.
 
-check for duplicate rows
-drop Booking_ID column
-create a column 'is_cancelled' that maps the values in 'booking_status' to 1 or 0: 'Cancelled' to 1 and 'Not_Cancelled' to 0
-address some of the low-frequency categories found in certain categorical columns' value counts by consolidating
-make sure binary/discrete integer columns are changed to data type 'object' (required_car_parking_space, repeated_guest, and arrival_year(because there are only 2 years)) so they'll be treated as categorical
-plot the distribution of numeric columns
-manually add a maximum cap to certain numerical columns to handle their outliers
-check for (and drop) records where the total number of nights is zero
+3. **Preprocessing & Baseline Setup:**
+**Data Splitting:** Used a Train-Test Split to ensure the models were evaluated on unseen data, effectively preventing data leakage.
+
+**Baseline Establishment:** Implemented a Dummy Classifier to generate baseline metrics (Accuracy, Precision, Recall), providing a benchmark to measure how well our models improved.
+
+**Pipeline Transformations:**
+
+**Categorical:** Applied OneHotEncoder to transform categorical variables into a machine-readable format.
+
+**Numerical:** Applied StandardScaler to normalize continuous features, ensuring that columns with larger scales (like lead_time) do not disproportionately influence the model.
+
 
 
 ## Model Evaluation Metrics:¶
@@ -150,7 +143,9 @@ These costs are both very important to consider. Businesses often accept a sligh
 We decided to try the following models before selecting a top performer (High Precision) to fine tune its parameters:
 
 **Logistic Regression:** simple, interpretable model that establishes a performance baseline and helps to clearly identify which features have a direct, positive or negative influence on the risk of cancellation
-**Random Forest:** bagging ensemble model that combines the predictions from hundreds of independent decision trees and is better at finding hidden, non-linear patterns in the data that a simple model might miss
+
+**Random Forest:** bagging ensemble model that combines the predictions from hundreds of independent decision trees and is better at finding hidden, non-linear patterns in the data that a simple model might miss.
+
 **Gradient Boosting:** boosting ensemble model that builds trees one after the other, with each new tree focused on fixing the errors made by the previous ones. This was included to challenge the Random Forest model.
 
 The following sections, split by model type, each create a pipeline that uses the preprocessors defined above along with the specific model. Each pipeline is fit on the training data and predicts test data. A Classification Report, Confusion Matrix, ROC AUC score, and ROC Curve Plot are displayed for each pipeline. Finally, we evaluate Feature Importance from each model to gain insight on what features lead a reservation to be high-risk. (A reminder that feature importance is a relative score, not a percentage.) After we evaluate these models, we tune the top performing model.
