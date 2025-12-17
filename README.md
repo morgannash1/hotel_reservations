@@ -94,7 +94,7 @@ The following list contains this dataset's primary limitations, and focuses on f
 ## Data Preparation:
 The following list summarizes the steps we took to prepare our data for modeling:
 
-1. **Data Cleaning:**
+1. **Data Cleaning:**\
 **Unique Identification:** Removed the Booking_ID column as it held no predictive power.
 
 **Duplicate Management:** Scanned for and removed duplicate records to prevent artificial bias in model training.
