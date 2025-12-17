@@ -91,26 +91,28 @@ The following list contains this dataset's primary limitations, and focuses on f
 * **Feature Ambiguity:** Interpretation is hampered by the ciphered room type values (ie. room type, meal plan type), which cannot be leveraged fully without the encoding key, which is not included. 
 
 
+<img src="images/cancellation_distribution.jpg" width="800">
+
 ## Data Preparation:
 The following list summarizes the steps we took to prepare our data for modeling:
 
-1. **Data Cleaning:**\
-- Unique Identification: Removed the Booking_ID column as it held no predictive power.\
-- Duplicate Management: Scanned for and removed duplicate records to prevent artificial bias in model training.\
-- Target Encoding: Created the target column "is_canceled" by mapping "booking_status" values (Canceled = 1, Not_Canceled = 0).\
+1. **Data Cleaning:**
+- Unique Identification: Removed the Booking_ID column as it held no predictive power.
+- Duplicate Management: Scanned for and removed duplicate records to prevent artificial bias in model training.
+- Target Encoding: Created the target column "is_canceled" by mapping "booking_status" values (Canceled = 1, Not_Canceled = 0).
 - Validation: Identified and removed logically inconsistent records, specifically instances where the total number of stay nights (weekend + weeknights) was zero.
 
-2. **Feature Engineering:**\
-- Outlier Mitigation: To prevent extreme values from skewing model performance, manual maximum caps were applied to lead_time, no_of_children, no_of_week_nights, and previous booking/cancellation metrics.\
-- Category Consolidation: Addressed high-cardinality categorical features by consolidating low-frequency categories into "Other" or other broader labels, reducing noise and improving model stability.\
+2. **Feature Engineering:**
+- Outlier Mitigation: To prevent extreme values from skewing model performance, manual maximum caps were applied to lead_time, no_of_children, no_of_week_nights, and previous booking/cancellation metrics.
+- Category Consolidation: Addressed high-cardinality categorical features by consolidating low-frequency categories into "Other" or other broader labels, reducing noise and improving model stability.
 - Data Type Casting: Explicitly converted discrete integer columns—required_car_parking_space, repeated_guest, and arrival_year—to object types to ensure the preprocessing pipeline treated them as categorical features rather than continuous values.
 
-3. **Preprocessing & Baseline Setup:**\
-- Data Splitting: Used a Train-Test Split to ensure the models were evaluated on unseen data, effectively preventing data leakage.\
+3. **Preprocessing & Baseline Setup:**
+- Data Splitting: Used a Train-Test Split to ensure the models were evaluated on unseen data, effectively preventing data leakage.
 - Baseline Establishment: Implemented a Dummy Classifier to generate baseline metrics (Accuracy, Precision, Recall), providing a benchmark to measure how well our models improved.
 
-4. **Created Pipeline Transformations:**\
-- Categorical: Applied OneHotEncoder to transform categorical variables into a machine-readable format.\
+4. **Created Pipeline Transformations:**
+- Categorical: Applied OneHotEncoder to transform categorical variables into a machine-readable format.
 - Numerical: Applied StandardScaler to normalize continuous features, ensuring that columns with larger scales (like lead_time) do not disproportionately influence the model.
 
 
@@ -196,6 +198,17 @@ Our analysis of Feature Importance across all three models points to three main 
 This analysis, along with comparing the previous model results, confirms that a more sophisticated, non-linear model (Random Forest/Gradient Boosting) is necessary to capture the more complex relationships between time (lead time), pricing, and seasonality. 
 
 
+<img src="images/top_features_logreg.jpg" width="800">
+
+<img src="images/top_features_rforest.jpg" width="800">
+
+<img src="images/top_features_gboost.jpg" width="800">
+
+<img src="images/cancel_rate_lead_time.jpg" width="800">
+
+<img src="images/cancel_rate_avg_room_price.jpg" width="800">
+
+
 ## Random Forest Model Tuning:
 To tune our Random Forest model, we defined a parameter grid and used Grid Search Cross-Validation to find the best parameters. The parameters we chose to tune are as following:
 
@@ -255,7 +268,7 @@ We recommend integrating the final model into the booking system to score all ne
 **Model Monitoring & Tracking Results:**
   - The model must be monitored and updated. We recommend retraining the model monthly or quarterly on the newest available data.
   - A/B Testing: Initially, you should A/B test the intervention strategy. For a set period, only intervene on 50% of the high-risk bookings.
-  - Measure Lift: Compare the final cancellation rate of the Intervention Group (the 50% high risk booking that you do intervene) versus the Control Group (50% where no intervention was done) to accurately measure the financial "lift" or ROI (Return on Investment) of your new strategy
+  - Measure Lift: Compare the final cancellation rate of the Intervention Group (the 50% high risk booking that you do intervene) versus the Control Group (50% where no intervention was done) to accurately measure the financial "lift" or ROI of your new strategy
 
 
 ### Example Intervention Plan:
@@ -278,7 +291,7 @@ Value Reinforcement:
 
 
 # Limitations and Future Recommendations:
-While the current Random Forest model performs with high precision, it is based on a "snapshot" of specific historical data. It is important to note that no model can predict everything that would lead to a reservation cancellation, however there are plenty of features not yet included. To further improve the model's accuracy and business use, we suggest retrieving and training the model on even more (and more recent) data. Adding the following features should be considered for future development:
+While the current Random Forest model performs with high precision, it is based on a "snapshot" of specific historical data. It is important to note that no model can predict everything that would lead to a reservation cancellation, however there are plenty of features not yet included. To further improve the model's accuracy and business use, we suggest retrieving and training the model on even more (and more recent) data. Consider adding the following features for future development:
 
 **External Data Integration:** Currently, the model only sees specific internal data for the reservation. Adding external features could significantly improve the "Medium Risk" classification.
 - **Local Events & Holidays:** A feature indicating if the reservation occurs during any major local events (festivals, conferences, sports) or public holidays. Guests are often less likely to cancel during high-demand periods.
