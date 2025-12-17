@@ -144,11 +144,44 @@ The following sections, split by model type, each create a pipeline that uses th
 
 # Evaluation
 
-## Limitations
 
-## Recommendations
+### Example Intervention Plan:
 
-## Next Steps
+**Tier 1: High-Risk (> 0.70):** These bookings are the model's top priority. Our 86% Precision guarantees that 86 out of every 100 times you offer this incentive, you are saving a reservation that was genuinely likely to be canceled.
+
+Personalized High-Value Offer:
+  - Goal: Lock in the commitment.
+  - Action: Proactively Email/Text a discount on the room rate or a free room upgrade at check-in if the guest pays for the first night ahead of check in
+  - Benefit: This creates an incenctive as well as a financial barrier which would reduce the reservation's cancellation probability.
+  
+**Tier 2: Medium-Risk (0.50 - 0.70):** These bookings are still a concern, but the intervention should be a lower cost than the high-risk reservations, focusing on reinforcing the value of keeping the booking rather than offering a direct discount.
+
+Value Reinforcement:
+  - Goal: Remind the guests of the value of retaining their booking, making them less likely to search for alternatives.
+  - Action: Send a rich, interactive email showcasing hotel amenities, local attractions, and special services (spa, restaurant, concierge).
+  - Benefit: Increase the perceived value of the stay without incurring a direct financial cost.
+
+**Tier 3: Low-Risk (< 0.50):** No special action is required. These bookings are likely committed, potentially including high-commitment signals like having a repeat guest or the market segment type was an offline booking.
+
+
+## Limitations and Future Recommendations:
+While the current Random Forest model performs with high precision, it is based on a "snapshot" of specific historical data. It is important to note that no model can predict everything that would lead to a reservation cancellation, however there are plenty of features not yet included. To further improve the model's accuracy and business use, we suggest retrieving and training the model on even more (and more recent) data. Adding the following features should be considered for future development:
+
+**External Data Integration:** Currently, the model only sees specific internal data for the reservation. Adding external features could significantly improve the "Medium Risk" classification.
+- **Local Events & Holidays:** A feature indicating if the reservation occurs during any major local events (festivals, conferences, sports) or public holidays. Guests are often less likely to cancel during high-demand periods.
+- **Weather Forecasts:** For bookings made with short lead times, predicted inclement weather often correlates with higher cancellation rates.
+- **Economic Indicators:** Changes in fuel prices or consumer confidence indices can influence travel sentiment on a macro level.
+
+
+**Geographic & Competitive Insights**
+- **Guest Origin/Location:** Knowing the distance between the guest's home and the hotel. International guests or those flying in typically have a higher "sunk cost" and lower cancellation risk compared to local guests.
+- **Competitor Pricing:** A "Price Index" feature comparing our avg_price_per_room against the local market average for those specific dates. If a competitor drops their price significantly after a guest has booked with us, the risk of "re-booking" elsewhere increases.
+
+
+**Data Fidelity & Feature Refinement**
+- **Actual Price:** Moving from an "Average Price" to the Actual Transaction Price (including taxes/fees) would provide a more precise view of the guest's financial commitment.
+- **Reason for Stay**: Capturing whether a booking is for "Business," "Leisure," or "Personal" reasons would allow the model to distinguish between different behavioral profiles. Business travelers often have more rigid schedules and company-sponsored cancellations, whereas leisure travelers are generally more price-sensitive and prone to "shopping around" or canceling if personal plans change.
+
 
 ## For More Information
 
