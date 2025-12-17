@@ -4,6 +4,9 @@ Author: [Morgan Nash](mailto:morganmichellenash@gmail.com)
 
 December 2025
 
+<img src="images/hotel_desk.jpg" width="800">
+
+
 See the full analysis in the [Jupyter Notebook](notebook.ipynb) 
 
 # Project Objective:
