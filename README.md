@@ -100,7 +100,7 @@ The following list summarizes the steps we took to prepare our data for modeling
 **Target Encoding:** Created the target column "is_canceled" by mapping "booking_status" values (Canceled = 1, Not_Canceled = 0).\
 **Validation:** Identified and removed logically inconsistent records, specifically instances where the total number of stay nights (weekend + weeknights) was zero.
 
-2. **Feature Engineering & Domain Adjustments:**\
+2. **Feature Engineering:**\
 **Outlier Mitigation:** To prevent extreme values from skewing model performance, manual maximum caps were applied to lead_time, no_of_children, no_of_week_nights, and previous booking/cancellation metrics.\
 **Category Consolidation:** Addressed high-cardinality categorical features by consolidating low-frequency categories into "Other" or other broader labels, reducing noise and improving model stability.\
 **Data Type Casting:** Explicitly converted discrete integer columns—required_car_parking_space, repeated_guest, and arrival_year—to object types to ensure the preprocessing pipeline treated them as categorical features rather than continuous values.
@@ -109,7 +109,7 @@ The following list summarizes the steps we took to prepare our data for modeling
 **Data Splitting:** Used a Train-Test Split to ensure the models were evaluated on unseen data, effectively preventing data leakage.\
 **Baseline Establishment:** Implemented a Dummy Classifier to generate baseline metrics (Accuracy, Precision, Recall), providing a benchmark to measure how well our models improved.
 
-**Pipeline Transformations:**\
+4. **Created Pipeline Transformations:**\
 **Categorical:** Applied OneHotEncoder to transform categorical variables into a machine-readable format.\
 **Numerical:** Applied StandardScaler to normalize continuous features, ensuring that columns with larger scales (like lead_time) do not disproportionately influence the model.
 
@@ -134,7 +134,7 @@ These costs are both very important to consider. Businesses often accept a sligh
 
 We decided to try the following models before selecting a top performer (High Precision) to fine tune its parameters:
 
-**Logistic Regression:** simple, interpretable model that establishes a performance baseline and helps to clearly identify which features have a direct, positive or negative influence on the risk of cancellation
+**Logistic Regression:** simple, interpretable model that establishes a performance baseline and helps to clearly identify which features have a direct, positive or negative influence on the risk of cancellation.
 
 **Random Forest:** bagging ensemble model that combines the predictions from hundreds of independent decision trees and is better at finding hidden, non-linear patterns in the data that a simple model might miss.
 
