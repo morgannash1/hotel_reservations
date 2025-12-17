@@ -198,11 +198,7 @@ Our analysis of Feature Importance across all three models points to three main 
 This analysis, along with comparing the previous model results, confirms that a more sophisticated, non-linear model (Random Forest/Gradient Boosting) is necessary to capture the more complex relationships between time (lead time), pricing, and seasonality. 
 
 
-<img src="images/top_features_logreg.jpg" width="800">
 
-<img src="images/top_features_rforest.jpg" width="800">
-
-<img src="images/top_features_gboost.jpg" width="800">
 
 <img src="images/cancel_rate_lead_time.jpg" width="800">
 
