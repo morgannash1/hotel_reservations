@@ -95,30 +95,22 @@ The following list contains this dataset's primary limitations, and focuses on f
 The following list summarizes the steps we took to prepare our data for modeling:
 
 1. **Data Cleaning:**\
-**Unique Identification:** Removed the Booking_ID column as it held no predictive power.
-
-**Duplicate Management:** Scanned for and removed duplicate records to prevent artificial bias in model training.
-
-**Target Encoding:** Created the target column "is_canceled" by mapping "booking_status" values (Canceled = 1, Not_Canceled = 0).
-
+**Unique Identification:** Removed the Booking_ID column as it held no predictive power.\
+**Duplicate Management:** Scanned for and removed duplicate records to prevent artificial bias in model training.\
+**Target Encoding:** Created the target column "is_canceled" by mapping "booking_status" values (Canceled = 1, Not_Canceled = 0).\
 **Validation:** Identified and removed logically inconsistent records, specifically instances where the total number of stay nights (weekend + weeknights) was zero.
 
-2. **Feature Engineering & Domain Adjustments:**
-**Outlier Mitigation:** To prevent extreme values from skewing model performance, manual maximum caps were applied to lead_time, no_of_children, no_of_week_nights, and previous booking/cancellation metrics.
-
-**Category Consolidation:** Addressed high-cardinality categorical features by consolidating low-frequency categories into "Other" or other broader labels, reducing noise and improving model stability.
-
+2. **Feature Engineering & Domain Adjustments:**\
+**Outlier Mitigation:** To prevent extreme values from skewing model performance, manual maximum caps were applied to lead_time, no_of_children, no_of_week_nights, and previous booking/cancellation metrics.\
+**Category Consolidation:** Addressed high-cardinality categorical features by consolidating low-frequency categories into "Other" or other broader labels, reducing noise and improving model stability.\
 **Data Type Casting:** Explicitly converted discrete integer columns—required_car_parking_space, repeated_guest, and arrival_year—to object types to ensure the preprocessing pipeline treated them as categorical features rather than continuous values.
 
-3. **Preprocessing & Baseline Setup:**
-**Data Splitting:** Used a Train-Test Split to ensure the models were evaluated on unseen data, effectively preventing data leakage.
-
+3. **Preprocessing & Baseline Setup:**\
+**Data Splitting:** Used a Train-Test Split to ensure the models were evaluated on unseen data, effectively preventing data leakage.\
 **Baseline Establishment:** Implemented a Dummy Classifier to generate baseline metrics (Accuracy, Precision, Recall), providing a benchmark to measure how well our models improved.
 
-**Pipeline Transformations:**
-
-**Categorical:** Applied OneHotEncoder to transform categorical variables into a machine-readable format.
-
+**Pipeline Transformations:**\
+**Categorical:** Applied OneHotEncoder to transform categorical variables into a machine-readable format.\
 **Numerical:** Applied StandardScaler to normalize continuous features, ensuring that columns with larger scales (like lead_time) do not disproportionately influence the model.
 
 
