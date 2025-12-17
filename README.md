@@ -134,10 +134,12 @@ check for (and drop) records where the total number of nights is zero
 During modeling, we set "Canceled" reservations to 1, and reservationes that were "Not Canceled" to 0. Below, we explain the difference in the costs between False Positives and False Negatives:
 
 **False Positive:** Our model predicts that a reservation is "high risk" but the guests were planning on showing up.
+
 **Cost:** You end up spending money, time, and effort on trying to save a booking that was never at risk of canceling.
 High Precision minimizes these False Positives. Of all predicted positives (cancellations), how many were correct? It is important because money spent on a customer who was already committed is a direct, unnecessary cost.
 
 **False Negative:** Our model predicts the reservation was low-risk, but the guest actually canceled the booking.
+
 **Cost:** You fail to intervene and lose the revenue associated with that booking.
 High Recall minimizes False Negatives. Of all actual positives (cancellations), how many did we find? This is relevant for intervening to save bookings.
 
