@@ -4,6 +4,8 @@ Author: [Morgan Nash](mailto:morganmichellenash@gmail.com)
 
 December 2025
 
+Hotel booking cancellations often result in lost revenue and empty rooms that could have been recovered with the right outreach. This project builds a classification model designed to identify high-risk reservations before they occur, allowing for your hotel team to proactively intervene and secure the booking. Using an optimized Random Forest model, the final model achieves an overall accuracy of 90% and a high-risk precision of 86%. With an AUC score of 0.9515, the model ensures that when a reservation is flagged for intervention, the team is acting on accurate, reliable data, allowing them to focus their time and resources exactly where they are needed most to protect the hotel's bottom line.
+
 <img src="images/hotel_desk.jpg" width="800">
 
 
@@ -21,6 +23,8 @@ Maintaining occupancy is a huge challenge for the modern hotel industry. Intense
 * On top of that, many of the hotel reservation systems are outdated and lack the capabilities that are needed to predict customer behavior, limiting the reliability of reservation projections.
   
 * Another reason for occupancy struggles is the ease of online booking and common "free cancellation" policies. This allows for customers to make multiple reservations simultaneously, which greatly increases the chance of last-minute cancellations.
+
+[Hotel Dive Cancellation Article](https://www.hoteldive.com/news/hotel-cancellation-policies/709848/)
 
 With all of this, it's not shocking that your hotel is having issues with cancelled reservations, and we understand the immediate need for a predictive intervention system. 
 
@@ -96,7 +100,33 @@ The following list contains this dataset's primary limitations, and focuses on f
 
 <img src="images/cancellation_distribution.jpg" width="800">
 
+
+## Accessing the Data:
+You can load the data into your environment using one of the two methods below.
+
+**Method 1: Local Environment (Manual Download)**
+To run the analysis on your local machine, follow these steps to download and prepare the data:
+
+Navigate to the [Kaggle](https://www.kaggle.com/datasets/ahsan81/hotel-reservations-classification-dataset/data) Dataset Page.
+
+Click the Download button on the top right of the page.
+
+Locate the downloaded file (usually titled archive.zip) in your Downloads folder.
+
+Unzip the file to extract Hotel Reservations.csv.
+
+Move the .csv file into the repository folder.
+
+Import the data in your notebook using: data = pd.read_csv('Hotel Reservations.csv').
+
+**Method 2: Google Colab (Kaggle API)**
+If you are using Google Colab, you can automate the data retrieval using your Kaggle API credentials.
+The code for this option is located in the Data Preparation section of the [Jupyter Notebook](notebook.ipynb)
+
+
+
 ## Data Preparation:
+
 The following list summarizes the steps we took to prepare our data for modeling:
 
 1. **Data Cleaning:**
@@ -314,3 +344,9 @@ While the current Random Forest model performs with high precision, it is based 
 ## For More Information
 
 See the full analysis in the [Jupyter Notebook](notebook.ipynb) 
+
+├── images
+├── README.md
+├── hotel_cancellations_presentation.pdf
+└── notebook.ipynb
+
